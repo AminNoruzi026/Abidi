@@ -55,30 +55,26 @@ namespace Abidi.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                foreach (HttpPostedFileBase file in FileAddress)
                 {
-                    foreach (HttpPostedFileBase file in FileAddress)
+                    if (file != null)
                     {
-                        if (file != null)
-                        {
-                            personFile.FileName = Path.GetFileName(file.FileName);
-                            personFile.FileFormat = Path.GetExtension(Path.GetFileName(file.FileName));
+                        personFile.FileName = Path.GetFileName(file.FileName);
+                        personFile.FileFormat = Path.GetExtension(Path.GetFileName(file.FileName));
 
-                            var InputFileName = Guid.NewGuid() + Path.GetExtension(Path.GetFileName(file.FileName));
-                            var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/") + InputFileName);
-                            file.SaveAs(ServerSavePath);
+                        var InputFileName = Guid.NewGuid() + Path.GetExtension(Path.GetFileName(file.FileName));
+                        var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/") + InputFileName);
+                        file.SaveAs(ServerSavePath);
 
-                            personFile.FileAddress = "~/UploadedFiles/" + InputFileName;
-                            //......در این بخش نام محل ذخیره عکس دریافت می شود
+                        personFile.FileAddress = "~/UploadedFiles/" + InputFileName;
+                        //......در این بخش نام محل ذخیره عکس دریافت می شود
 
-                            db.PersonFiles.Add(personFile);
-                            db.SaveChanges();
-                            ViewBag.UploadStatus = FileAddress.Count().ToString() + " با موفقیت آپلود شد";
-                        }
-
+                        db.PersonFiles.Add(personFile);
+                        db.SaveChanges();
+                        ViewBag.UploadStatus = FileAddress.Count().ToString() + " با موفقیت آپلود شد";
                     }
-                }
 
+                }
 
                 return RedirectToAction("Index", "People");
             }
