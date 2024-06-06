@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Abidi.DataLayer.Models.Person>
+
+@using Abidi.DataLayer.Context
+@using Abidi.DataLayer.Models
+
+@{
+    AbidiContext db = new AbidiContext();
+    //var user = db.Users.FirstOrDefault(u => u.UserMobile == User.Identity.Name);
+}
+
+@{
+    int rowno = 0;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: IRANSansWeb;
+        }
+
+        table {
+            direction: rtl;
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            text-align: center;
+            padding-right: 50px;
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align:center;">نمايش پرسنل</h2>
+
+    <table>
+        <tr>
+            <th>رديف</th>
+            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+            <th>@Html.DisplayNameFor(model => model.LastName)</th>
+	        <th>@Html.DisplayNameFor(model => model.PersonalCode)</th>
+	        <th>@Html.DisplayNameFor(model => model.NationalCode)</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@(rowno += 1)</th>
+                <th>@Html.DisplayFor(modelItem => item.FirstName)</th>
+                <th>@Html.DisplayFor(modelItem => item.LastName)</th>
+                <th>@Html.DisplayFor(modelItem => item.PersonalCode)</th>
+                <th>@Html.DisplayFor(modelItem => item.NationalCode)</th>
+                
+            </tr>
+        }
+    </table>
+
+</body>
+</html>
+

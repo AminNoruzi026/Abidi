@@ -3,10 +3,18 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
 }
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <p>
-    <a href="#" class="btn btn-primary" onclick="Create()">ثبت پرسنل</a>
+	<a data-toggle="modal" onclick='Create()' class="btn btn-primary"><i class="material-icons">&#xE147;</i><span>ثبت پرسنل</span></a>
+	<a href="@Url.Action("ExcelOutput","People")" class="btn btn-primary"><i class="material-icons">&#xE24D;</i> <span>خروجی اکسل</span></a>
+	<a href="@Url.Action("PdfOutput","People")" class="btn btn-primary"><i class="material-icons">&#xE24D;</i> <span>خروجی PDF</span></a>
 </p>
+
+
 <table class="table">
     <tr>
         <th>
@@ -40,8 +48,8 @@
                 @Html.DisplayFor(modelItem => item.NationalCode)
             </td>
             <td>
-	            <a class="btn btn-primary btn-sm" onclick="Edit(@item.Id)">ویرایش<i class="glyphicon glyphicon-list-alt"></i></a>
-	            <a class="btn btn-danger btn-sm" onclick="Delete(@item.Id)">حذف<i class="glyphicon glyphicon-link"></i></a>
+                <a class="btn btn-primary btn-sm" onclick="Edit(@item.Id)">ویرایش<i class="glyphicon glyphicon-list-alt"></i></a>
+                <a class="btn btn-danger btn-sm" onclick="Delete(@item.Id)">حذف<i class="glyphicon glyphicon-link"></i></a>
                 <a class="btn btn-bg-success btn-sm" onclick="showFiles(@item.Id)">لیست فایلهای پیوست<i class="glyphicon glyphicon-list-alt"></i></a>
                 <a class="btn btn-info btn-sm" onclick="attachFiles(@item.Id)">افزودن مدارک تحصیلی<i class="glyphicon glyphicon-link"></i></a>
             </td>

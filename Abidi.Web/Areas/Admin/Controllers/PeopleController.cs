@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using Abidi.DataLayer.Context;
 using Abidi.DataLayer.Models;
+using OfficeOpenXml;
+using Rotativa;
 
 namespace Abidi.Web.Areas.Admin.Controllers
 {
@@ -123,6 +128,88 @@ namespace Abidi.Web.Areas.Admin.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        //public ActionResult ExportToExcel()
+        //{
+        //    var data = db.People.ToList();
+
+        //    GridView gridView = new GridView();
+        //    gridView.DataSource = data;
+        //    gridView.DataBind();
+
+
+        //    Response.ClearContent();
+        //    Response.Buffer = true;
+
+        //    Response.AddHeader("content-disposition", "attachment;filename = People.xls");
+        //    Response.ContentType = "application/ms-excel";
+        //    Response.Charset = "";
+
+        //    using (StringWriter sw = new StringWriter())
+        //    {
+        //        using (HtmlTextWriter htw = new HtmlTextWriter(sw))
+        //        {
+        //            gridView.RenderControl(htw);
+        //            Response.Output.Write(sw.ToString());
+        //            Response.Flush();
+        //            Response.End();
+        //        }
+        //    }
+
+        //    return View();
+        //}
+
+        //public ActionResult Excel()
+        //{
+        //    var data = db.People.ToList();
+
+        //    ExcelPackage excel = new ExcelPackage();
+        //    var workSheet = excel.Workbook.Worksheets.Add("Sheet1");
+        //    workSheet.Cells[1, 1].LoadFromCollection(data, true);
+        //    using (var memoryStream = new MemoryStream())
+        //    {
+        //        Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        //        //here i have set filname as Students.xlsx
+        //        Response.AddHeader("content-disposition", "attachment;  filename=Users.xlsx");
+        //        excel.SaveAs(memoryStream);
+        //        memoryStream.WriteTo(Response.OutputStream);
+        //        Response.Flush();
+        //        Response.End();
+        //    }
+
+        //    return View();
+        //}
+
+        public ActionResult PdfOutput()
+        {
+            var person = db.People.ToList();
+
+            var etp = new PartialViewAsPdf("_PartialPdf", person);/*{ FileName="Users.pdf"}*/
+
+            return etp;
+        }
+
+        public ActionResult ExcelOutput()
+        {
+            string filename = "People";
+            List<Person> userlist = db.People.ToList();
+            GridView gv = new GridView();
+            gv.DataSource = userlist;
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=" + filename + ".xls");
+            Response.ContentType = "application/ms-excel";
+            Response.BinaryWrite(System.Text.Encoding.UTF8.GetPreamble());
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gv.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+            return View("index");
         }
     }
 }
