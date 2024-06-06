@@ -46,9 +46,10 @@
                 @Html.DisplayFor(modelItem => item.Degrees)
             </td>
             <td>
-                <a class="btn btn-primary" onclick="Edit(@item.Id)">ویرایش</a>
-                @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
-            <a class="btn btn-danger" onclick="Delete(@item.Id)">حذف</a>
+	            <a class="btn btn-primary btn-sm" onclick="Edit(@item.Id)">ویرایش<i class="glyphicon glyphicon-list-alt"></i></a>
+	            <a class="btn btn-danger btn-sm" onclick="Delete(@item.Id)">حذف<i class="glyphicon glyphicon-link"></i></a>
+                <a class="btn btn-bg-success btn-sm" onclick="showFiles(@item.Id)">لیست فایلهای پیوست<i class="glyphicon glyphicon-list-alt"></i></a>
+                <a class="btn btn-info btn-sm" onclick="attachFiles(@item.Id)">افزودن مدارک تحصیلی<i class="glyphicon glyphicon-link"></i></a>
             </td>
         </tr>
     }
@@ -59,12 +60,12 @@
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-	        <div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			        &times;
-		        </button>
-	        </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    &times;
+                </button>
+            </div>
             <div class="modal-body" id="bodymodal">
 
             </div>
@@ -114,5 +115,31 @@
                 $('#bodymodal').html(result);
             });
         }
+
+        function attachFiles(id) {
+            $.ajax({
+                url: "/Admin/PersonFiles/Create/" + id,
+                type: "Get",
+                data: {}
+            }).done(function (result) {
+                $('#exampleModalLong').modal('show');
+                $('#exampleModalLongTitle').html('افزودن فایل پیوست');
+                $('#bodymodal').html(result);
+            });
+        }
+
+
+        function showFiles(id) {
+            $.ajax({
+                url: "/Admin/PersonFiles/Index/" + id,
+                type: "Get",
+                data: {}
+            }).done(function (result) {
+                $('#exampleModalLong').modal('show');
+                $('#exampleModalLongTitle').html('لیست فایلهای پیوست');
+                $('#bodymodal').html(result);
+            });
+        }
+
     </script>
 }

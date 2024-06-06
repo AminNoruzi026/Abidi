@@ -1,4 +1,4 @@
-﻿namespace Abidi.DataLayer.Migrations
+namespace Abidi.DataLayer.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -26,6 +26,20 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.PersonFiles",
+                c => new
+                    {
+                        FileId = c.Int(nullable: false, identity: true),
+                        PersonId = c.Int(nullable: false),
+                        FileName = c.String(),
+                        FileFormat = c.String(),
+                        FileAddress = c.String(),
+                    })
+                .PrimaryKey(t => t.FileId)
+                .ForeignKey("dbo.People", t => t.PersonId, cascadeDelete: true)
+                .Index(t => t.PersonId);
+            
+            CreateTable(
                 "dbo.Users",
                 c => new
                     {
@@ -42,7 +56,10 @@
         
         public override void Down()
         {
+            DropForeignKey("dbo.PersonFiles", "PersonId", "dbo.People");
+            DropIndex("dbo.PersonFiles", new[] { "PersonId" });
             DropTable("dbo.Users");
+            DropTable("dbo.PersonFiles");
             DropTable("dbo.People");
         }
     }

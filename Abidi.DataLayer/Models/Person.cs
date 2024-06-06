@@ -38,6 +38,12 @@ namespace Abidi.DataLayer.Models
         [Display(Name = "مدارک تحصیلی")]
         public string Degrees { get; set; }
 
+        public virtual List<PersonFile> PersonFiles { get; set; }
+        public Person()
+        {
+
+        }
+
 
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }

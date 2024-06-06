@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Abidi.DataLayer.Models.PersonFile>
+
+@{
+	ViewBag.Title = "Index";
+	Layout = null;
+}
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<table class="table">
+	<!--<tr>
+	<th>
+		@Html.DisplayNameFor(model => model.Person.FirstName)
+	</th>
+	<th>-->
+	@*@Html.DisplayNameFor(model => model.FileName)*@
+	<!--</th>
+	<th>
+		@Html.DisplayNameFor(model => model.FileFormat)
+	</th>
+	<th>
+		@Html.DisplayNameFor(model => model.FileAddress)
+	</th>
+	<th></th>
+	</tr>-->
+
+	@foreach (var item in Model) {
+		<tr>
+			@*<td>
+            @Html.DisplayFor(modelItem => item.User.Fname)
+        </td>*@
+			<td>
+				@Html.DisplayFor(modelItem => item.FileName)
+			</td>
+			@*<td>
+            @Html.DisplayFor(modelItem => item.FileFormat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileAddress)
+        </td>*@
+			<td>
+				@Html.ActionLink("دانلود فایل", "DownloadFile", "PersonFiles", new { id = item.FileId }, new { @class="btn btn-success btn-sm"})
+				@*@Html.ActionLink("Edit", "Edit", new { id=item.FileId }) |
+        @Html.ActionLink("Details", "Details", new { id=item.FileId }) |
+        @Html.ActionLink("Delete", "Delete", new { id=item.FileId })*@
+			</td>
+		</tr>
+	}
+
+</table>
