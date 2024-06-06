@@ -55,9 +55,9 @@
     <Compile Include="BaseRepository.cs" />
     <Compile Include="Context\AbidiContext.cs" />
     <Compile Include="Helpers\AsyncHelper.cs" />
-    <Compile Include="Migrations\202406060809598_init.cs" />
-    <Compile Include="Migrations\202406060809598_init.Designer.cs">
-      <DependentUpon>202406060809598_init.cs</DependentUpon>
+    <Compile Include="Migrations\202406061150525_init.cs" />
+    <Compile Include="Migrations\202406061150525_init.Designer.cs">
+      <DependentUpon>202406061150525_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Person.cs" />
@@ -75,8 +75,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202406060809598_init.resx">
-      <DependentUpon>202406060809598_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202406061150525_init.resx">
+      <DependentUpon>202406061150525_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

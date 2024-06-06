@@ -13,7 +13,7 @@ namespace Abidi.DataLayer.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202406060809598_init"; }
+            get { return "202406061150525_init"; }
         }
         
         string IMigrationMetadata.Source

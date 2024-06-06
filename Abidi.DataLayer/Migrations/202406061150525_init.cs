@@ -16,7 +16,6 @@ namespace Abidi.DataLayer.Migrations
                         LastName = c.String(nullable: false, maxLength: 300),
                         PersonalCode = c.String(nullable: false, maxLength: 10),
                         NationalCode = c.String(nullable: false, maxLength: 10),
-                        Degrees = c.String(),
                         InsertUser = c.String(),
                         InsertDate = c.DateTime(),
                         UpdateUser = c.String(),

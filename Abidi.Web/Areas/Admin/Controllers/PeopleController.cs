@@ -47,7 +47,7 @@ namespace Abidi.Web.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,PersonalCode,NationalCode,Degrees,InsertUser,InsertDate,UpdateUser,UpdateDate,IsDeleted")] Person person)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,PersonalCode,NationalCode,InsertUser,InsertDate,UpdateUser,UpdateDate,IsDeleted")] Person person)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace Abidi.Web.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,PersonalCode,NationalCode,Degrees,InsertUser,InsertDate,UpdateUser,UpdateDate,IsDeleted")] Person person)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,PersonalCode,NationalCode,InsertUser,InsertDate,UpdateUser,UpdateDate,IsDeleted")] Person person)
         {
             if (ModelState.IsValid)
             {

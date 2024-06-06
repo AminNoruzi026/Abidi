@@ -35,9 +35,6 @@ namespace Abidi.DataLayer.Models
         public string NationalCode { get; set; }
 
 
-        [Display(Name = "مدارک تحصیلی")]
-        public string Degrees { get; set; }
-
         public virtual List<PersonFile> PersonFiles { get; set; }
         public Person()
         {
