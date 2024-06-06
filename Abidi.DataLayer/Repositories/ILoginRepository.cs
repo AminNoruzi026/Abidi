@@ -8,6 +8,6 @@ namespace Abidi.DataLayer.Repositories
 {
     public interface ILoginRepository
     {
-        bool IsExistUser(string username, string password,int faal);
+        bool IsExistUser(string username, string password);
     }
 }

@@ -10,17 +10,17 @@ using System.Web;
 
 namespace Abidi.DataLayer.Services
 {
-    //public class LoginRepository : ILoginRepository
-    //{
-    //    private AbidiContext db;
+    public class LoginRepository : ILoginRepository
+    {
+        private AbidiContext db;
 
-    //    public LoginRepository(AbidiContext context)
-    //    {
-    //        db = context;
-    //    }
-    //    //public bool IsExistUser(string username, string password, int faal)
-    //    //{
-    //    //    //return db.users.Any(u => u.username == username && u.password == password && u.faal == 1);
-    //    //}
-    //}
+        public LoginRepository(AbidiContext context)
+        {
+            db = context;
+        }
+        public bool IsExistUser(string username, string password)
+        {
+            return db.People.Any(u => u.PersonalCode == username && u.NationalCode == password);
+        }
+    }
 }

@@ -7,10 +7,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Abidi.DataLayer.Context;
 using Abidi.DataLayer.Models;
+using Abidi.DataLayer.Repositories;
+using Abidi.DataLayer.Services;
 using OfficeOpenXml;
 using Rotativa;
 
@@ -19,6 +22,16 @@ namespace Abidi.Web.Areas.Admin.Controllers
     public class PeopleController : Controller
     {
         private AbidiContext db = new AbidiContext();
+        private IPeopleRepository peopleRepository;
+        private ILoginRepository loginRepository;
+
+
+        public PeopleController()
+        {
+            peopleRepository = new PeopleRepository(db);
+            loginRepository = new LoginRepository(db);
+        }
+
 
         // GET: Admin/People
         public ActionResult Index()
@@ -56,9 +69,18 @@ namespace Abidi.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.People.Add(person);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (!db.People.Any(c => c.PersonalCode == person.PersonalCode && c.NationalCode == person.NationalCode))
+                {
+                    db.People.Add(person);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("PersonalCode", "این کد پرسنلی تکراری است");
+                    ModelState.AddModelError("NationalCode", "این کد ملی تکراری است");
+                }
+
             }
 
             return PartialView(person);
@@ -210,6 +232,12 @@ namespace Abidi.Web.Areas.Admin.Controllers
             Response.Flush();
             Response.End();
             return View("index");
+        }
+
+        public JsonResult IsPersonExists(string nationalCode, string personalCode)
+        {
+            //check if any of the UserName matches the UserName specified in the Parameter using the ANY extension method.  
+            return Json(!db.People.Any(x => x.NationalCode == nationalCode && x.PersonalCode == personalCode), JsonRequestBehavior.AllowGet);
         }
     }
 }

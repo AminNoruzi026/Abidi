@@ -16,6 +16,7 @@ namespace Abidi.Web.Areas.Admin.Controllers
     {
         private AbidiContext db = new AbidiContext();
 
+        [Authorize]
         // GET: Admin/PersonFiles
         public ActionResult Index(int? id)
         {

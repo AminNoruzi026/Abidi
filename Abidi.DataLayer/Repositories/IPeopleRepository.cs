@@ -13,6 +13,7 @@ namespace Abidi.DataLayer.Repositories
         bool UpdatePerson(Person person);
         bool DeletePerson(Person person);
         bool DeletePerson(int personId);
+        bool IsExistPerson(string personalcode, string nationalcode);
         void Save();
     }
 }

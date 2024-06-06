@@ -3,6 +3,7 @@ using Abidi.DataLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Text;
 using Abidi.DataLayer.Context;
 using Abidi.DataLayer.Repositories;
@@ -46,6 +47,11 @@ namespace Abidi.DataLayer.Services
         public bool InsertPerson(Person person)
         {
             throw new NotImplementedException();
+        }
+
+        public bool IsExistPerson(string personalcode, string nationalcode)
+        {
+            return !db.People.Any(c => c.PersonalCode == personalcode && c.NationalCode == nationalcode);
         }
 
         public void Save()

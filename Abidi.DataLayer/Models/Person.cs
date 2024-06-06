@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Abidi.DataLayer.Models
 {
@@ -27,11 +28,13 @@ namespace Abidi.DataLayer.Models
         [Display(Name = "کد پرسنلی")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [StringLength(10, MinimumLength = 4, ErrorMessage = "کد پرسنلی باید حداقل 4 و حداکثر 10 کاراکتر باشد")]
+        [Remote("IsPersonExists", "People", ErrorMessage = "این نام کاربری در سایت موجود است !!! ")]
         public string PersonalCode { get; set; }
 
         [MaxLength(10)]
         [Display(Name = "کد ملی")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [Remote("IsPersonExists", "People", ErrorMessage = "این نام کاربری در سایت موجود است !!! ")]
         public string NationalCode { get; set; }
 
 

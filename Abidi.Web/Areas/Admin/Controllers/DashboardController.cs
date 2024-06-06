@@ -9,6 +9,7 @@ namespace Abidi.Web.Areas.Admin.Controllers
     public class DashboardController : Controller
     {
         // GET: Admin/Dashboard
+        [Authorize]
         public ActionResult Index()
         {
             return View();
