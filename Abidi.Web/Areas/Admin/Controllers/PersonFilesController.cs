@@ -74,6 +74,34 @@ namespace Abidi.Web.Areas.Admin.Controllers
                         ViewBag.UploadStatus = FileAddress.Count().ToString() + " با موفقیت آپلود شد";
                     }
 
+                    //if (file != null && file.ContentLength > 0)
+                    //{
+                    //    personFile.FileName = Path.GetFileName(file.FileName);
+                    //    personFile.FileFormat = Path.GetExtension(Path.GetFileName(file.FileName));
+                    //    string[] allowedExtensions = { ".pdf", ".txt" };
+
+                    //    if (allowedExtensions.Contains(personFile.FileFormat))
+                    //    {
+                    //        var maxFileSize = 500 * 1024; // 500KB
+                    //        if (file.ContentLength > maxFileSize)
+                    //        {
+                    //            ViewBag.Message = "File size exceeds the maximum limit of 5MB.";
+                    //            return View();
+                    //        }
+                    //    }
+
+                    //    var InputFileName = Guid.NewGuid() + Path.GetExtension(Path.GetFileName(file.FileName));
+                    //    var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/") + InputFileName);
+                    //    file.SaveAs(ServerSavePath);
+
+                    //    personFile.FileAddress = "~/UploadedFiles/" + InputFileName;
+                    //    //......در این بخش نام محل ذخیره عکس دریافت می شود
+
+                    //    db.PersonFiles.Add(personFile);
+                    //    db.SaveChanges();
+                    //    ViewBag.UploadStatus = FileAddress.Count().ToString() + " با موفقیت آپلود شد";
+                    //}
+
                 }
 
                 return RedirectToAction("Index", "People");
