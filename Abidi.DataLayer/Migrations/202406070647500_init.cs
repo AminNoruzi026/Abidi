@@ -43,11 +43,8 @@ namespace Abidi.DataLayer.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        UserName = c.String(),
-                        Password = c.String(),
-                        FirstName = c.String(),
-                        LastName = c.String(),
-                        Status = c.Int(nullable: false),
+                        Username = c.String(nullable: false, maxLength: 200),
+                        Password = c.String(nullable: false, maxLength: 200),
                     })
                 .PrimaryKey(t => t.Id);
             

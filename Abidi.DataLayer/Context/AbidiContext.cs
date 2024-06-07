@@ -15,6 +15,6 @@ namespace Abidi.DataLayer.Context
 
         public DbSet<Person> People { get; set; }
 
-        public System.Data.Entity.DbSet<Abidi.DataLayer.Models.PersonFile> PersonFiles { get; set; }
+        public DbSet<PersonFile> PersonFiles { get; set; }
     }
 }

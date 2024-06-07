@@ -20,7 +20,7 @@ namespace Abidi.DataLayer.Services
         }
         public bool IsExistUser(string username, string password)
         {
-            return db.People.Any(u => u.PersonalCode == username && u.NationalCode == password);
+            return db.Users.Any(u => u.Username == username && u.Password == password);
         }
     }
 }

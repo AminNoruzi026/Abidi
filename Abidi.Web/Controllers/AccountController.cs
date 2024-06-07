@@ -34,18 +34,18 @@ namespace Abidi.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                string MyHash = FormsAuthentication.HashPasswordForStoringInConfigFile(login.NationalCode, "MD5");
+                string MyHash = FormsAuthentication.HashPasswordForStoringInConfigFile(login.Password, "MD5");
 
-                var person = db.People.FirstOrDefault(u => u.PersonalCode == login.PersonalCode && u.NationalCode == MyHash);
+                var user = db.Users.FirstOrDefault(u => u.Username == login.Username && u.Password == MyHash);
 
-                if (loginRepository.IsExistUser(login.PersonalCode, MyHash))
+                if (loginRepository.IsExistUser(login.Username, MyHash))
                 {
-                    FormsAuthentication.SetAuthCookie(login.PersonalCode,true);
+                    FormsAuthentication.SetAuthCookie(login.Username,true);
                     return Redirect("/Admin/Dashboard/Index");
                 }
                 else
                 {
-                    ModelState.AddModelError("PersonalCode", "کاربری یافت نشد");
+                    ModelState.AddModelError("UserName", "کاربری یافت نشد");
                 }
             }
             return View(login);

@@ -9,15 +9,15 @@ namespace Abidi.DataLayer.ViewModels
 {
    public class LoginViewModel
     {
-        [MaxLength(10)]
-        [Display(Name = "کد پرسنلی")]
+        [Display(Name = "نام کاربری")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [StringLength(10, MinimumLength = 4, ErrorMessage = "کد پرسنلی باید حداقل 4 و حداکثر 10 کاراکتر باشد")]
-        public string PersonalCode { get; set; }
+        [MaxLength(200)]
+        public string Username { get; set; }
 
-        [MaxLength(10)]
-        [Display(Name = "کد ملی")]
+        [Display(Name = "کلمه عبور")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        public string NationalCode { get; set; }
+        [MaxLength(200)]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
     }
 }
