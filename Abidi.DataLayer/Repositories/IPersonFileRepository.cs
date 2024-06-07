@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Abidi.DataLayer.Repositories
 {
-    public interface ILoginRepository
+    public interface IPersonFileRepository : IDisposable
     {
-        bool IsExistUser(string username, string password);
+
     }
 }

@@ -13,14 +13,7 @@ namespace Abidi.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private ILoginRepository loginRepository;
-
-        AbidiContext db = new AbidiContext();
-
-        public AccountController()
-        {
-            loginRepository = new LoginRepository(db);
-        }
+        private UnitOfWork db = new UnitOfWork();
         // GET: Account
 
         public ActionResult Login()
@@ -36,9 +29,7 @@ namespace Abidi.Web.Controllers
             {
                 string MyHash = FormsAuthentication.HashPasswordForStoringInConfigFile(login.Password, "MD5");
 
-                var user = db.Users.FirstOrDefault(u => u.Username == login.Username && u.Password == MyHash);
-
-                if (loginRepository.IsExistUser(login.Username, MyHash))
+                if (db.UserRepository.IsExistUser(login.Username, MyHash))
                 {
                     FormsAuthentication.SetAuthCookie(login.Username,true);
                     return Redirect("/Admin/Dashboard/Index");

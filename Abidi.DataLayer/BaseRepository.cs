@@ -7,92 +7,84 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-
+using Abidi.DataLayer.Context;
+using System.Linq.Expressions;
 
 namespace Abidi.DataLayer
 {
-    public interface IBaseRepository<T> where T : class, IBaseEntity
+    public class BaseRepository<TEntity> where TEntity : class
     {
-        List<T> GetAll();
-        int GetCount();
-        T Get(int id);
-        T Add(T entity);
-        T Update(T entity);
-        T Delete(int id);
-    }
-    public abstract class BaseRepository<TEntity, TContext> : IBaseRepository<TEntity>
-         where TEntity : class, IBaseEntity
-         where TContext : DbContext
-    {
-        private readonly TContext context;
-        public BaseRepository(TContext context)
-        {
-            this.context = context;
-        }
-        public  TEntity Add(TEntity entity)
-        {
-            //var user = GetCurrentUser();
-            entity.InsertDate = DateTime.Now;
-            //if (user != null)
-            //{
-            //    entity.InsertUser = user.username;
-            //}
-            var ent = entity.GetType().Name;
+        private AbidiContext _context;
+        private DbSet<TEntity> _dbset;
 
-            context.Set<TEntity>().Add(entity);
-             context.SaveChanges();
-            return entity;
+        public BaseRepository(AbidiContext context)
+        {
+            _context = context;
+            _dbset = context.Set<TEntity>();
         }
 
-        public  TEntity Delete(int id)
+
+        public virtual IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includes = "")
         {
-            var entity =  context.Set<TEntity>().Find(id);
-            if (entity == null)
+            IQueryable<TEntity> query = _dbset;
+
+            if (where != null)
             {
-                return entity;
+                query = query.Where(where);
             }
-            entity.IsDeleted = true;
-            context.Entry(entity).State = EntityState.Modified;
-            context.SaveChanges();
-            return entity;
+
+            if (orderby != null)
+            {
+                query = orderby(query);
+            }
+
+            if (includes != "")
+            {
+                foreach (string include in includes.Split(','))
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            return query.ToList();
         }
 
-        public  TEntity Get(int id)
+        public virtual TEntity GetById(object id)
         {
-            return  context.Set<TEntity>().Find(id);
+            return _dbset.Find(id);
         }
 
-        public List<TEntity> GetAll()
+        public virtual void Insert(TEntity entity)
         {
-            return  context.Set<TEntity>().Where(e=>e.IsDeleted == false).OrderByDescending(e=>e.InsertDate).ToList();
-        }     
-        public int GetCount()
-        {
-            var entity =  context.Set<TEntity>().Count();
-
-            return entity;
+            _dbset.Add(entity);
         }
-        public  TEntity Update(TEntity entity)
+
+        public virtual void Update(TEntity entity)
         {
-            //var user = GetCurrentUser();
-            entity.UpdateDate = DateTime.Now;
-            //if (user != null)
-            //{
-            //    entity.UpdateUser = user.username;
-            //}
-
-            context.Entry(entity).State = EntityState.Modified;
-            context.SaveChanges();
-            return entity;
+            _dbset.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
         }
-        //public users GetCurrentUser()
-        //{
-        //    var username = HttpContext.Current.User.Identity.GetUserName();
-        //    if (username == null)
-        //        return null;
-        //    var user = context.Set<users>().FirstOrDefault(u => u.username.Trim().ToLower() == username.Trim().ToLower());
-        //    return user;
 
-        //}
+        public virtual void Delete(TEntity entity)
+        {
+            if (_context.Entry(entity).State == EntityState.Detached)
+            {
+                _dbset.Attach(entity);
+            }
+
+            _dbset.Remove(entity);
+        }
+
+        public virtual void Delete(object id)
+        {
+            var entity = GetById(id);
+            Delete(entity);
+        }
+
+        public virtual void Save()
+        {
+            _context.SaveChanges();
+        }
     }
 }
+

@@ -1,11 +1,13 @@
-﻿using Abidi.DataLayer.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Abidi.DataLayer.Models;
 
 namespace Abidi.DataLayer.Repositories
 {
-    public interface IPeopleRepository : IDisposable
+    public interface IPersonRepository : IDisposable
     {
         IEnumerable<Person> GetAllPersons();
         Person GetPersonById(int personId);

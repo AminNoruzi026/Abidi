@@ -75,6 +75,7 @@
     <Compile Include="BaseEntity.cs" />
     <Compile Include="BaseRepository.cs" />
     <Compile Include="Context\AbidiContext.cs" />
+    <Compile Include="Context\UnitOfWork.cs" />
     <Compile Include="Helpers\AsyncHelper.cs" />
     <Compile Include="Migrations\202406070647500_init.cs" />
     <Compile Include="Migrations\202406070647500_init.Designer.cs">
@@ -85,10 +86,12 @@
     <Compile Include="Models\PersonFile.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\ILoginRepository.cs" />
-    <Compile Include="Repositories\IPeopleRepository.cs" />
-    <Compile Include="Services\LoginRepository.cs" />
-    <Compile Include="Services\PeopleRepository.cs" />
+    <Compile Include="Repositories\IPersonFileRepository.cs" />
+    <Compile Include="Repositories\IPersonRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Services\PersonFileRepository.cs" />
+    <Compile Include="Services\PersonRepository.cs" />
+    <Compile Include="Services\UserRepository.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

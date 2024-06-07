@@ -21,22 +21,13 @@ namespace Abidi.Web.Areas.Admin.Controllers
 {
     public class PeopleController : Controller
     {
-        private AbidiContext db = new AbidiContext();
-        private IPeopleRepository peopleRepository;
-        private ILoginRepository loginRepository;
-
-
-        public PeopleController()
-        {
-            peopleRepository = new PeopleRepository(db);
-            loginRepository = new LoginRepository(db);
-        }
+        private UnitOfWork db = new UnitOfWork();
 
         [Authorize]
         // GET: Admin/People
         public ActionResult Index()
         {
-            return View(db.People.ToList());
+            return View(db.PersonRepository.Get());
         }
 
         // GET: Admin/People/Details/5
@@ -46,7 +37,8 @@ namespace Abidi.Web.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Person person = db.People.Find(id);
+
+            Person person = db.PersonRepository.GetById(id);
             if (person == null)
             {
                 return HttpNotFound();
@@ -69,10 +61,10 @@ namespace Abidi.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!db.People.Any(c => c.PersonalCode == person.PersonalCode && c.NationalCode == person.NationalCode))
+                if (db.PersonRepository.IsExistPerson(person.PersonalCode, person.NationalCode))
                 {
-                    db.People.Add(person);
-                    db.SaveChanges();
+                    db.PersonRepository.Insert(person);
+                    db.PersonRepository.Save();
                     return RedirectToAction("Index");
                 }
                 else
@@ -93,7 +85,8 @@ namespace Abidi.Web.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Person person = db.People.Find(id);
+
+            Person person = db.PersonRepository.GetById(id);
             if (person == null)
             {
                 return HttpNotFound();
@@ -110,8 +103,8 @@ namespace Abidi.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(person).State = EntityState.Modified;
-                db.SaveChanges();
+                db.PersonRepository.Update(person);
+                db.PersonRepository.Save();
                 return RedirectToAction("Index");
             }
             return View(person);
@@ -124,7 +117,7 @@ namespace Abidi.Web.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Person person = db.People.Find(id);
+            Person person = db.PersonRepository.GetById(id);
             if (person == null)
             {
                 return HttpNotFound();
@@ -137,9 +130,9 @@ namespace Abidi.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Person person = db.People.Find(id);
-            db.People.Remove(person);
-            db.SaveChanges();
+            
+            db.PersonRepository.Delete(id);
+            db.PersonRepository.Save();
             return RedirectToAction("Index");
         }
 
@@ -205,7 +198,7 @@ namespace Abidi.Web.Areas.Admin.Controllers
 
         public ActionResult PdfOutput()
         {
-            var person = db.People.ToList();
+            var person = db.PersonRepository.Get();
 
             var etp = new PartialViewAsPdf("_PartialPdf", person);/*{ FileName="Users.pdf"}*/
 
@@ -215,7 +208,7 @@ namespace Abidi.Web.Areas.Admin.Controllers
         public ActionResult ExcelOutput()
         {
             string filename = "People";
-            List<Person> userlist = db.People.ToList();
+            List<Person> userlist = (List<Person>)db.PersonRepository.Get();
             GridView gv = new GridView();
             gv.DataSource = userlist;
             gv.DataBind();
@@ -234,10 +227,5 @@ namespace Abidi.Web.Areas.Admin.Controllers
             return View("index");
         }
 
-        public JsonResult IsPersonExists(string nationalCode, string personalCode)
-        {
-            //check if any of the UserName matches the UserName specified in the Parameter using the ANY extension method.  
-            return Json(!db.People.Any(x => x.NationalCode == nationalCode && x.PersonalCode == personalCode), JsonRequestBehavior.AllowGet);
-        }
     }
 }
