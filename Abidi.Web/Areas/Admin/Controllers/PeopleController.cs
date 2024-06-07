@@ -32,7 +32,7 @@ namespace Abidi.Web.Areas.Admin.Controllers
             loginRepository = new LoginRepository(db);
         }
 
-
+        [Authorize]
         // GET: Admin/People
         public ActionResult Index()
         {
