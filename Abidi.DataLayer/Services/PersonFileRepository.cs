@@ -17,5 +17,15 @@ namespace Abidi.DataLayer.Services
             db = context;
         }
 
+        public IQueryable<string> GetFileFormatById(int?  id)
+        {
+            return db.PersonFiles.Where(p => p.FileId == id).Select(p=>p.FileFormat);
+        }
+
+        public IQueryable<string> GetFileNameById(int? id)
+        {
+            return db.PersonFiles.Where(p => p.FileId == id).Select(p => p.FileName);
+        }
+
     }
 }

@@ -27,10 +27,5 @@ namespace Abidi.DataLayer.Services
         {
             return db.Users.Any(p => p.Username == username && p.Password == password);
         }
-
-        public User FirstOrDefault(string username, string password)
-        {
-            return db.Users.FirstOrDefault(p => p.Username == username && p.Password == password);
-        }
     }
 }

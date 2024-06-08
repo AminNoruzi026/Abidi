@@ -43,7 +43,6 @@ namespace Abidi.Web.Areas.Admin.Controllers
         public ActionResult Create(int id)
         {
             ViewBag.PersonId = new SelectList(db.People.Where(u => u.Id == id), "Id", "FirstName");
-            //..........این کد نمایش لیست کاربران در DropDownList
             return View();
         }
 
